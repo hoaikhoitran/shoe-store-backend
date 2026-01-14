@@ -7,6 +7,6 @@
         public decimal? MaxPrice { get; set; }
         public int? Size { get; set; }
         public string Color { get; set; }
-        public string SortBy { get; set; } // "price_asc", "price_desc", "name", "newest"
+        public string SortBy { get; set; } // "price_asc", "price_desc"
     }
 }
