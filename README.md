@@ -1,2 +1,35 @@
-# shoe-store-backend
-<img width="8192" height="5050" alt="Untitled diagram-2026-01-13-150108" src="https://github.com/user-attachments/assets/7f5bd896-078e-4f47-bb16-8e50cb2f0eff" />
+ShoeStore.API
+Simple Web API for a shoe store built with ASP.NET Core and Entity Framework Core.
+
+Features
+Manage shoes (create, read, update, delete).
+
+Filter and search shoes by name, price, size, and color.
+
+Pagination for shoe lists.
+
+Basic stock check for each shoe and size.
+
+Main Structure
+Models/Entities – database entities (Shoe, User, etc.).
+
+Models/DTOs – request/response models and filter parameters.
+
+Repositories – data access logic (ShoeRepository).
+
+Mappings – mapping between entities and DTOs.
+
+Controllers – HTTP endpoints for the API.
+
+Run the project
+Set your PostgreSQL connection string in appsettings.json.
+
+Apply database migrations:
+
+bash
+dotnet ef database update
+Run the API:
+
+bash
+dotnet run
+The API will be available on https://localhost:<port>.
