@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShoeStore.API.Models.Entities;
 
 namespace ShoeStore.API.Data
 {
@@ -8,6 +9,7 @@ namespace ShoeStore.API.Data
             : base(options)
         {
         }
+        public DbSet<Shoe> Shoes { get; set; }
 
     }
 }

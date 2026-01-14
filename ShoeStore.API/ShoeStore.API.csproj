@@ -8,19 +8,25 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+
+    <!-- EF Core 9 -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+
+    <!-- PostgreSQL provider cho EF Core 9 -->
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="ShoesController\" />
     <Folder Include="Mappings\" />
-    <Folder Include="Models\DTOs\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Services\IShoeService\" />
+    <Folder Include="Services\ShoeService\" />
   </ItemGroup>
 
 </Project>
