@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ShoeStore.API.Core.Exceptions;
+using ShoeStore.API.Core;
 using ShoeStore.API.Models.DTOs;
 using ShoeStore.API.Models.Entities;
 using ShoeStore.API.Repositories.IShoeRepository;

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
-using ShoeStore.API.Core.Exceptions;
+using ShoeStore.API.Core;
 
 namespace ShoeStore.API.Middlewares
 {
