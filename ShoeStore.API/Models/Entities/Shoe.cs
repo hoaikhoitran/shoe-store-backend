@@ -7,7 +7,7 @@ namespace ShoeStore.API.Models.Entities
     public class Shoe : BaseEntity
     {
         [Required]
-        [MaxLength(200)]
+        [MaxLength(50)]
         public string Name { get; set; } = null!;
 
         [Column(TypeName = "decimal(18,2)")]

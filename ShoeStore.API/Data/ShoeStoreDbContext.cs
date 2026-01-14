@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShoeStore.API.Models;
 using ShoeStore.API.Models.Entities;
 
 namespace ShoeStore.API.Data
@@ -10,6 +11,15 @@ namespace ShoeStore.API.Data
         {
         }
         public DbSet<Shoe> Shoes { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Khai báo enum PostgreSQL cho Role
+            modelBuilder.HasPostgresEnum<Role>();
+        }
 
     }
 }
