@@ -30,6 +30,7 @@ namespace ShoeStore.API.Services.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
+            //k hiẻu 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_config["JwtSettings:SecretKey"]!)
             );
