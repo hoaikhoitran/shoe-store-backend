@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ShoeStore.API.Data;
 using ShoeStore.API.Middlewares;
 using ShoeStore.API.Models.Validations;
@@ -14,7 +16,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ShoeStoreDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ================= Controllers =================
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!)),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 builder.Services.AddControllers();
 
 // ================= FluentValidation =================
@@ -46,6 +66,7 @@ if (app.Environment.IsDevelopment())
 // ================= Pipeline =================
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 app.MapGet("/", () => Results.Redirect("/swagger"));
