@@ -1,4 +1,4 @@
-﻿using ShoeStore.API.Core;
+using ShoeStore.API.Core;
 using ShoeStore.API.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,6 +20,14 @@ namespace ShoeStore.API.Models.Entities
 
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+
+        // Email verification
+        public bool EmailVerified { get; set; } = false;
+        public string? EmailVerificationToken { get; set; }
+        public DateTime? EmailVerificationTokenExpiry { get; set; }
+
+        // Google OAuth
+        public string? GoogleId { get; set; }
 
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }

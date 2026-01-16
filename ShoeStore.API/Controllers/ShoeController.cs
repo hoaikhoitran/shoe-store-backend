@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShoeStore.API.Models.DTOs;
 using ShoeStore.API.Services.Interfaces;
 
@@ -17,6 +18,7 @@ namespace ShoeStore.API.Controllers
 
         // ===================== CREATE =====================
         // POST: api/shoe
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateShoe([FromBody] ShoeCreateDto dto)
         {
@@ -47,6 +49,7 @@ namespace ShoeStore.API.Controllers
 
         // ===================== UPDATE =====================
         // PUT: api/shoe/5
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateShoe(
             int id,
@@ -58,6 +61,7 @@ namespace ShoeStore.API.Controllers
 
         // ===================== SOFT DELETE =====================
         // DELETE: api/shoe/5
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteShoe(int id)
         {

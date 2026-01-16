@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +7,7 @@ using ShoeStore.API.Data;
 using ShoeStore.API.Middlewares;
 using ShoeStore.API.Models.Validations;
 using ShoeStore.API.Repositories.IShoeRepository;
+using ShoeStore.API.Repositories.ShoeRepository;
 using ShoeStore.API.Services.Interfaces;
 using ShoeStore.API.Services.Services;
 
@@ -27,7 +28,7 @@ builder.Services.AddAuthentication(x =>
     {
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!)),
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)),
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
@@ -50,6 +51,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IShoeRepository, ShoeRepository>();
 builder.Services.AddScoped<IShoeServices, ShoeServices>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
@@ -65,8 +70,8 @@ if (app.Environment.IsDevelopment())
 
 // ================= Pipeline =================
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapGet("/", () => Results.Redirect("/swagger"));

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ShoeStore.API.Data;
 using ShoeStore.API.Models.Entities;
 using ShoeStore.API.Repositories.IShoeRepository;
@@ -14,6 +14,18 @@ namespace ShoeStore.API.Repositories.ShoeRepository
         }
         public async Task<User?> GetUserByUsernameAsync(string username)
            => await _context.Users.FirstOrDefaultAsync(x => x.Username == username && !x.IsDeleted);
+
+        public async Task<User?> GetUserByEmailAsync(string email)
+           => await _context.Users.FirstOrDefaultAsync(x => x.Email == email && !x.IsDeleted);
+
+        public async Task<User?> GetUserByVerificationTokenAsync(string token)
+           => await _context.Users.FirstOrDefaultAsync(x => 
+                x.EmailVerificationToken == token && 
+                !x.IsDeleted &&
+                x.EmailVerificationTokenExpiry > DateTime.UtcNow);
+
+        public async Task<User?> GetUserByGoogleIdAsync(string googleId)
+           => await _context.Users.FirstOrDefaultAsync(x => x.GoogleId == googleId && !x.IsDeleted);
 
         public async Task<User?> GetByRefreshTokenAsync(string refreshToken)
             => await _context.Users.FirstOrDefaultAsync(x =>

@@ -1,4 +1,6 @@
-﻿namespace ShoeStore.API.Core
+﻿using System.Net;
+
+namespace ShoeStore.API.Core
 {
     public class AppException : Exception
     {

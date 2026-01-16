@@ -119,7 +119,8 @@ namespace ShoeStore.API.Repositories.IShoeRepository
             query = filters.SortBy switch
             {
                 "price_asc" => query.OrderBy(s => s.Price),
-                "price_desc" => query.OrderByDescending(s => s.Price)
+                "price_desc" => query.OrderByDescending(s => s.Price),
+                null or "" => query
             };
 
             var totalItems = await query.CountAsync();
