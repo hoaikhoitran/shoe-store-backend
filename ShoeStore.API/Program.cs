@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +57,33 @@ builder.Services.AddValidatorsFromAssemblyContaining<ShoeCreateDtoValidator>();
 
 // ================= Swagger =================
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\""
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 // ================= DI =================
 builder.Services.AddAutoMapper(typeof(Program));
@@ -69,7 +95,38 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ShoeStoreDbContext>();
 
+    // Retry logic - thử kết nối nhiều lần
+    var retryCount = 0;
+    var maxRetries = 10;
+
+    while (retryCount < maxRetries)
+    {
+        try
+        {
+            context.Database.Migrate();
+            Console.WriteLine("Database migration completed successfully!");
+            break;
+        }
+        catch (Exception ex)
+        {
+            retryCount++;
+            Console.WriteLine($"Migration attempt {retryCount} failed: {ex.Message}");
+
+            if (retryCount >= maxRetries)
+            {
+                Console.WriteLine("Max retries reached. Migration failed.");
+                throw;
+            }
+
+            Thread.Sleep(3000); // Đợi 3 giây rồi thử lại
+        }
+    }
+}
 // ================= Exception Middleware ================
 app.UseMiddleware<ExceptionMiddleware>();
 
