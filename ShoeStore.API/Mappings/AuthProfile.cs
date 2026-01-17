@@ -24,7 +24,6 @@ namespace ShoeStore.API.Mappings
                 .ForMember(dest => dest.RefreshToken, opt => opt.Ignore())
                 .ForMember(dest => dest.RefreshTokenExpiryTime, opt => opt.Ignore())
                 .ForMember(dest => dest.GoogleId, opt => opt.Ignore())
-                .ForMember(dest => dest.RefreshTokens, opt => opt.Ignore())
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
         }
     }

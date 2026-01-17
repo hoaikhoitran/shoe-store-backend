@@ -29,6 +29,5 @@ namespace ShoeStore.API.Models.Entities
         // Google OAuth
         public string? GoogleId { get; set; }
 
-        public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }
